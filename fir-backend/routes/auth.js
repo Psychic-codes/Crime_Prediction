@@ -1,37 +1,45 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const User = require("../models/user");
+const UserModel = require("../models/user");
+const verifyToken = require("../middleware/authMiddleware");
 
-const router = express.Router();
+const authRouter = express.Router();
 
 // Register User
-router.post("/register", async (req, res) => {
+authRouter.post("/register", async (req, res) => {
   const { email, password, role, location } = req.body;
 
   try {
+    const existingUser = await UserModel.findOne({ email });
+    if (existingUser) return res.status(400).json({ error: "Email already exists" });
+    
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new User({ email, password: hashedPassword, role, location });
-    await user.save();
+    const User = await UserModel.create({
+      email,
+      password: hashedPassword,
+      role,
+      location,
+    })
 
-    res.status(201).json({ message: "User registered successfully" });
+    res.status(201).json({ message: "User registered successfully",role: role});
   } catch (error) {
     res.status(500).json({ error: "Error registering user" });
   }
 });
 
 // Login User
-router.post("/login", async (req, res) => {
+authRouter.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const user = await User.findOne({ email });
+    const user = await UserModel.findOne({ email });
     if (!user) return res.status(400).json({ error: "User not found" });
 
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ error: "Invalid credentials" });
+    if (!isMatch) return res.status(400).json({ error: "Invalid credentials" ,isMatch});
 
-    const token = jwt.sign({ id: user._id, role: user.role, location: user.location }, process.env.JWT_SECRET, { expiresIn: "1d" });
+    const token = jwt.sign({ id: user._id, role: user.role, location: user.location }, process.env.JWT_SECRET);
 
     res.json({ token, role: user.role });
   } catch (error) {
@@ -39,4 +47,4 @@ router.post("/login", async (req, res) => {
   }
 });
 
-module.exports = router;
+module.exports = authRouter;
