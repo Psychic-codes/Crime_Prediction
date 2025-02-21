@@ -42,5 +42,7 @@ app.get("/", (req, res) => {
 
 
 const authRouter = require("./routes/auth");
+const firRouter = require("./routes/FIR");
 app.use("/api/auth", authRouter);
+app.use("/api/fir",firRouter);
 
