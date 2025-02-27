@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import CitizenFIRForm from "../components/CitizenFIRForm";
 
 const CitizenDashboard = () => {
   const navigate = useNavigate();
@@ -32,9 +33,10 @@ const CitizenDashboard = () => {
         </div>
       </nav>
 
-      {/* Empty Dashboard (for now) */}
-      <div className="flex-1 flex items-center justify-center">
-        <p className="text-gray-500 text-lg">Map will be added here soon...</p>
+      {/* FIR Filing Section */}
+      <div className="flex-1 flex flex-col items-center justify-center p-6">
+        <h2 className="text-xl font-semibold mb-4">File an FIR</h2>
+        <CitizenFIRForm />
       </div>
     </div>
   );
