@@ -1,50 +1,46 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import useDebounce from "../hooks/useDebounce";
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 import { login } from "../services/authService";
 
 const Login = () => {
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const [error, setError] = useState("")
-    const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-    const debouncedEmail = useDebounce(email);
+  const debouncedEmail = useDebounce(email);
   const debouncedPassword = useDebounce(password);
-
-  // Memoize the login payload to avoid unnecessary recalculations
-  const loginPayload = useMemo(
-    () => ({
-      email: debouncedEmail,
-      password: debouncedPassword,
-    }),
-    [debouncedEmail, debouncedPassword]
-  );
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await login(loginPayload);
+      const response = await login({
+        email: debouncedEmail,
+        password: debouncedPassword,
+      });
 
-      // Save token & role
-      localStorage.setItem("token", response.data.token);
-      localStorage.setItem("role", response.data.role);
+      // Extract token and role
+      const { token, role } = response.data;
+
+      if (!token || !role) {
+        throw new Error("Invalid login response");
+      }
+
+      // Save to local storage
+      localStorage.setItem("token", token);
+      localStorage.setItem("role", role);
 
       // Redirect based on role
-      if (response.data.role === "CITIZEN") {
-        navigate("/citizen-dashboard");
-      } else if (response.data.role === "POLICE") {
-        navigate("/police-dashboard");
-      }
+      navigate(role === "CITIZEN" ? "/citizen-dashboard" : "/police-dashboard");
+
     } catch (err) {
-      setError(err.response?.data?.error || "Login failed");
+      setError(err.response?.data?.error || err.message || "Login failed");
     }
   };
 
-    
-    return ( 
-        <>
-          <div className="flex justify-center items-center h-screen bg-gray-100">
+  return (
+    <div className="flex justify-center items-center h-screen bg-gray-100">
       <form onSubmit={handleLogin} className="bg-white p-6 rounded shadow-lg w-96">
         <h2 className="text-2xl font-bold mb-4">Login</h2>
         {error && <p className="text-red-500">{error}</p>}
@@ -67,8 +63,7 @@ const Login = () => {
         <button type="submit" className="bg-blue-500 text-white p-2 w-full">Login</button>
       </form>
     </div>
-        </>
-    );
-}
- 
+  );
+};
+
 export default Login;

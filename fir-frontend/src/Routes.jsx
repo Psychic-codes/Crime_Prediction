@@ -4,15 +4,20 @@ import Register from "./pages/Register";
 import CitizenDashboard from "./pages/CitizenDashboard";
 import PoliceDashboard from "./pages/PoliceDashboard";
 import PoliceFileFIR from "./pages/Police-Fir";
+import CitizenFIRForm from "./pages/CitizenFIRForm";
+import PoliceFIRList from "./pages/PoliceFIRList";
 
 const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/citizen-dashboard" element={<CitizenDashboard />}/>
-      <Route path="/police-dashboard" element={<PoliceDashboard />}/>
-      <Route path="/police-file-fir"  element={<PoliceFileFIR/>}/>
+      <Route path="/citizen/citizen-dashboard" element={<CitizenDashboard />}/>
+      <Route path="/police/police-dashboard" element={<PoliceDashboard />}/>
+      <Route path="/police/file-fir"  element={<PoliceFileFIR />}/>
+      <Route path="/citizen/file-fir" element={<CitizenFIRForm/>} />
+      <Route path="/police/filed-firs" element={ <PoliceFIRList /> } />
+
     </Routes>
   );
 };
