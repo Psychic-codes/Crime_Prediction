@@ -6,6 +6,7 @@ import PoliceDashboard from "./pages/PoliceDashboard";
 import PoliceFileFIR from "./pages/Police-Fir";
 import CitizenFIRForm from "./pages/CitizenFIRForm";
 import PoliceFIRList from "./pages/PoliceFIRList";
+import CitizenFIRList from "./pages/CitizenFIRList";
 
 const AppRoutes = () => {
   return (
@@ -17,6 +18,7 @@ const AppRoutes = () => {
       <Route path="/police/file-fir"  element={<PoliceFileFIR />}/>
       <Route path="/citizen/file-fir" element={<CitizenFIRForm/>} />
       <Route path="/police/filed-firs" element={ <PoliceFIRList /> } />
+      <Route path="/citizen/filed-firs" element={ <CitizenFIRList /> } />
 
     </Routes>
   );

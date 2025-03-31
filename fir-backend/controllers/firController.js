@@ -24,12 +24,12 @@ exports.police = async (req,res,next)=>{
 
         res.status(201).json({ message: "FIR filed successfully by police", fir: newFIR });
     }catch(err){
-        next(err)
+        console.error("Error in registration:", err);
+        return res.status(500).json({ success: false, message: "Internal Server Error" });
     };
 }
 
 exports.citizen = async (req,res)=>{
-    async (req,res)=>{
         try{
             const {citizenEmail, description, typeOfCrime, location, placeOfCrime} = req.body;
     
@@ -51,10 +51,11 @@ exports.citizen = async (req,res)=>{
     
             res.status(201).json({ message: "FIR filed successfully by citizen", fir: newFIR });
         }catch(err){
-            next(err)
+            console.error("Error in registration:", err);
+            return res.status(500).json({ success: false, message: "Internal Server Error" });
         };
-    }
 }
+
 
 exports.statusUpdate = async (req,res)=>{
     try{
@@ -85,7 +86,8 @@ exports.statusUpdate = async (req,res)=>{
         res.status(201).json({ "message": "Status Updated!", fir: updatedFIR})
 
     }catch(err){
-        next(err)
+        console.error("Error in registration:", err);
+        return res.status(500).json({ success: false, message: "Internal Server Error" });
     }
 }
 
@@ -125,7 +127,8 @@ exports.policefiledFIRs = async (req,res)=>{
 
         res.status(200).json({Fir})
     }catch(err){
-        next(err)
+        console.error("Error in registration:", err);
+        return res.status(500).json({ success: false, message: "Internal Server Error" });
     }
 }
 
@@ -148,7 +151,8 @@ exports.citizenfiledFIR = async (req,res)=>{
 
         res.status(200).json({Fir})
     }catch(error){
-        next(err)
+        console.error("Error in registration:", error);
+        return res.status(500).json({ success: false, message: "Internal Server Error" });
     }
 }
 
@@ -160,7 +164,7 @@ exports.citizenfiledFIRs = async (req,res)=>{
 
         res.status(200).json({FIRs})
     }catch(err){
-        console.log("Error fetcing Fir:", error);
+        console.log("Error fetcing Fir:", err);
         res.status(500).json({message: "Error! internal server error"})
     }
 }

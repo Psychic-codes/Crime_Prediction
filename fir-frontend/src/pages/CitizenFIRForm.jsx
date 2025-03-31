@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { fileCitizenFIR } from "../api/firApi";
-
+import axios from "axios";
 
 const CitizenFIRForm = () => {
   const navigate = useNavigate();
@@ -15,6 +14,7 @@ const CitizenFIRForm = () => {
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -24,10 +24,21 @@ const CitizenFIRForm = () => {
     e.preventDefault();
     setError("");
     setSuccess("");
+    setLoading(true);
+    
+    console.log("Submitting FIR:", formData); // Debugging Log
 
     try {
-      const response = await fileCitizenFIR(formData);
-      setSuccess(response.message);
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        "http://localhost:3000/api/fir/citizen",
+        formData,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      console.log("FIR Response:", response.data); // Debugging Log
+
+      setSuccess(response.data.message);
       setFormData({
         citizenEmail: "",
         description: "",
@@ -35,73 +46,100 @@ const CitizenFIRForm = () => {
         location: "",
         placeOfCrime: "",
       });
+
       setTimeout(() => navigate("/citizen-fir-status"), 2000);
     } catch (err) {
-      setError(err.response?.data?.error || "Failed to file FIR");
+      console.error("Error filing FIR:", err); // Debugging Log
+      setError(err.response?.data?.error || "Failed to file FIR. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="max-w-lg mx-auto bg-white p-6 shadow-md rounded-lg">
-      <h2 className="text-xl font-bold mb-4">File an FIR</h2>
-      {error && <p className="text-red-500">{error}</p>}
-      {success && <p className="text-green-500">{success}</p>}
+    <div className="max-w-xl mx-auto bg-white p-8 shadow-lg rounded-lg mt-10 border border-gray-300">
+      <h2 className="text-2xl font-bold text-blue-600 text-center mb-6">📄 File an FIR</h2>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          type="email"
-          name="citizenEmail"
-          value={formData.citizenEmail}
-          onChange={handleChange}
-          placeholder="Your Email"
-          required
-          className="w-full p-2 border rounded"
-        />
+      {error && <p className="text-red-500 bg-red-100 p-2 rounded text-center">{error}</p>}
+      {success && <p className="text-green-500 bg-green-100 p-2 rounded text-center">{success}</p>}
 
-        <input
-          type="text"
-          name="typeOfCrime"
-          value={formData.typeOfCrime}
-          onChange={handleChange}
-          placeholder="Type of Crime"
-          required
-          className="w-full p-2 border rounded"
-        />
+      <form onSubmit={handleSubmit} className="space-y-5">
+        <div>
+          <label className="block text-gray-700 font-semibold">Your Email</label>
+          <input
+            type="email"
+            name="citizenEmail"
+            value={formData.citizenEmail}
+            onChange={handleChange}
+            placeholder="Enter your email"
+            required
+            className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
 
-        <textarea
-          name="description"
-          value={formData.description}
-          onChange={handleChange}
-          placeholder="Describe the Incident"
-          required
-          className="w-full p-2 border rounded"
-        />
+        <div>
+          <label className="block text-gray-700 font-semibold">Type of Crime</label>
+          <input
+            type="text"
+            name="typeOfCrime"
+            value={formData.typeOfCrime}
+            onChange={handleChange}
+            placeholder="E.g., Theft, Assault, Fraud"
+            required
+            className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
 
-        <input
-          type="text"
-          name="placeOfCrime"
-          value={formData.placeOfCrime}
-          onChange={handleChange}
-          placeholder="Place of Crime"
-          required
-          className="w-full p-2 border rounded"
-        />
+        <div>
+          <label className="block text-gray-700 font-semibold">Incident Description</label>
+          <textarea
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            placeholder="Describe the incident in detail..."
+            required
+            className="w-full p-3 border rounded-lg h-32 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
 
-        <input
-          type="text"
-          name="location"
-          value={formData.location}
-          onChange={handleChange}
-          placeholder="Your Location"
-          required
-          className="w-full p-2 border rounded"
-        />
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-gray-700 font-semibold">Place of Crime</label>
+            <input
+              type="text"
+              name="placeOfCrime"
+              value={formData.placeOfCrime}
+              onChange={handleChange}
+              placeholder="E.g., Market, Street, Home"
+              required
+              className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <div>
+            <label className="block text-gray-700 font-semibold">Your Location</label>
+            <input
+              type="text"
+              name="location"
+              value={formData.location}
+              onChange={handleChange}
+              placeholder="Enter your current location"
+              required
+              className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+        </div>
 
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white p-2 rounded font-semibold"
+          disabled={loading}
+          className={`w-full p-3 rounded-lg font-semibold transition-all transform hover:scale-105 ${
+            loading
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-blue-600 hover:bg-blue-700 text-white"
+          }`}
         >
-          Submit FIR
+          {loading ? "Submitting..." : "🚔 Submit FIR"}
         </button>
       </form>
     </div>

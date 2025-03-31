@@ -47,6 +47,7 @@ const storeAuthData = (token) => {
 const parseJwt = (token) => {
   try {
     return JSON.parse(atob(token.split(".")[1]));
+  // eslint-disable-next-line no-unused-vars
   } catch (e) {
     return null;
   }
