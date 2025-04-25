@@ -42,7 +42,7 @@ const PoliceFileFIR = () => {
         placeOfCrime: "",
       });
 
-      setTimeout(() => navigate("/police-dashboard"), 2000);
+      setTimeout(() => navigate("/police/filed-firs"), 2000);
     } catch (err) {
       setError(err.response?.data?.error || "❌ Error filing FIR");
     }
@@ -77,15 +77,26 @@ const PoliceFileFIR = () => {
             className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
           />
 
-          <input
-            type="text"
-            name="typeOfCrime"
-            placeholder="Type of Crime"
-            value={formData.typeOfCrime}
-            onChange={handleChange}
-            required
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
-          />
+<select
+  name="typeOfCrime"
+  value={formData.typeOfCrime}
+  onChange={handleChange}
+  required
+  className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+>
+  <option value="" disabled>
+    Select type of crime
+  </option>
+  <option value="Property Crime">Property Crime</option>
+  <option value="Violent Crime">Violent Crime</option>
+  <option value="Sex Crime">Sex Crime</option>
+  <option value="Other">Other</option>
+  <option value="Fraud/Financial Crime">Fraud/Financial Crime</option>
+  <option value="Legal/Administrative">Legal/Administrative</option>
+  <option value="Cyber Crime">Cyber Crime</option>
+  <option value="Child Crime">Child Crime</option>
+  <option value="Traffic Offense">Traffic Offense</option>
+</select>
 
           <textarea
             name="description"
@@ -107,15 +118,38 @@ const PoliceFileFIR = () => {
             className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
           />
 
-          <input
-            type="text"
-            name="location"
-            placeholder="Police Location"
-            value={formData.location}
-            onChange={handleChange}
-            required
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
-          />
+<select
+name="location"
+  value={formData.location}
+  onChange={handleChange}
+  required
+  className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+>
+  <option value="" disabled>
+    Select your location
+  </option>
+  <option value="Wilshire">Wilshire</option>
+  <option value="Central">Central</option>
+  <option value="Southwest">Southwest</option>
+  <option value="Van Nuys">Van Nuys</option>
+  <option value="Hollenbeck">Hollenbeck</option>
+  <option value="Rampart">Rampart</option>
+  <option value="Newton">Newton</option>
+  <option value="Northeast">Northeast</option>
+  <option value="77th Street">77th Street</option>
+  <option value="Hollywood">Hollywood</option>
+  <option value="Harbor">Harbor</option>
+  <option value="West Valley">West Valley</option>
+  <option value="West LA">West LA</option>
+  <option value="N Hollywood">N Hollywood</option>
+  <option value="Pacific">Pacific</option>
+  <option value="Devonshire">Devonshire</option>
+  <option value="Mission">Mission</option>
+  <option value="Southeast">Southeast</option>
+  <option value="Olympic">Olympic</option>
+  <option value="Foothill">Foothill</option>
+  <option value="Topanga">Topanga</option>
+  </select>
 
           <button
             type="submit"

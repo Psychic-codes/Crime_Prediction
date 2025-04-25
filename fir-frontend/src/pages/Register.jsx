@@ -95,7 +95,39 @@ export default function Register() {
         </select>
 
         {/* Location */}
-        <input type="text" name="location" placeholder="Enter Your Location" value={userData.location} onChange={handleChange} className="border p-2 w-full rounded mt-2" required />
+        <select
+  name="location"
+  value={userData.location}
+  onChange={handleChange}
+  className="border p-2 w-full rounded mt-2"
+  required
+>
+  <option value="" disabled>
+    Select your location
+  </option>
+  <option value="Wilshire">Wilshire</option>
+  <option value="Central">Central</option>
+  <option value="Southwest">Southwest</option>
+  <option value="Van Nuys">Van Nuys</option>
+  <option value="Hollenbeck">Hollenbeck</option>
+  <option value="Rampart">Rampart</option>
+  <option value="Newton">Newton</option>
+  <option value="Northeast">Northeast</option>
+  <option value="77th Street">77th Street</option>
+  <option value="Hollywood">Hollywood</option>
+  <option value="Harbor">Harbor</option>
+  <option value="West Valley">West Valley</option>
+  <option value="West LA">West LA</option>
+  <option value="N Hollywood">N Hollywood</option>
+  <option value="Pacific">Pacific</option>
+  <option value="Devonshire">Devonshire</option>
+  <option value="Mission">Mission</option>
+  <option value="Southeast">Southeast</option>
+  <option value="Olympic">Olympic</option>
+  <option value="Foothill">Foothill</option>
+  <option value="Topanga">Topanga</option>
+</select>
+
 
         {/* Submit Button */}
         <button type="submit" className={`p-2 w-full rounded mt-4 transition ${isPasswordValid && isConfirmPasswordValid ? "bg-blue-500 text-white hover:bg-blue-600" : "bg-gray-300 text-gray-600 cursor-not-allowed"}`} disabled={!isPasswordValid || !isConfirmPasswordValid}>

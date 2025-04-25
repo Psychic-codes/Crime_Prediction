@@ -145,7 +145,7 @@ const CitizenDashboard = () => {
           </button>
           <button
             className="bg-white text-blue-600 px-5 py-2 rounded-lg mx-2 font-semibold transition-transform transform hover:scale-105 hover:bg-gray-100"
-            onClick={() => navigate("/citizen/citizen-fir-status")}
+            onClick={() => navigate("/citizen/filed-firs")}
           >
             📊 Check Your FIRs
           </button>

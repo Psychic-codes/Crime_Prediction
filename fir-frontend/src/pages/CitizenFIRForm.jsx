@@ -47,7 +47,7 @@ const CitizenFIRForm = () => {
         placeOfCrime: "",
       });
 
-      setTimeout(() => navigate("/citizen-fir-status"), 2000);
+      setTimeout(() => navigate("/citizen/filed-firs"), 2000);
     } catch (err) {
       console.error("Error filing FIR:", err); // Debugging Log
       setError(err.response?.data?.error || "Failed to file FIR. Please try again.");
@@ -79,15 +79,26 @@ const CitizenFIRForm = () => {
 
         <div>
           <label className="block text-gray-700 font-semibold">Type of Crime</label>
-          <input
-            type="text"
-            name="typeOfCrime"
-            value={formData.typeOfCrime}
-            onChange={handleChange}
-            placeholder="E.g., Theft, Assault, Fraud"
-            required
-            className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+          <select
+  name="typeOfCrime"
+  value={formData.typeOfCrime}
+  onChange={handleChange}
+  required
+  className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+>
+  <option value="" disabled>
+    Select type of crime
+  </option>
+  <option value="Property Crime">Property Crime</option>
+  <option value="Violent Crime">Violent Crime</option>
+  <option value="Sex Crime">Sex Crime</option>
+  <option value="Other">Other</option>
+  <option value="Fraud/Financial Crime">Fraud/Financial Crime</option>
+  <option value="Legal/Administrative">Legal/Administrative</option>
+  <option value="Cyber Crime">Cyber Crime</option>
+  <option value="Child Crime">Child Crime</option>
+  <option value="Traffic Offense">Traffic Offense</option>
+</select>
         </div>
 
         <div>
@@ -118,15 +129,39 @@ const CitizenFIRForm = () => {
 
           <div>
             <label className="block text-gray-700 font-semibold">Your Location</label>
-            <input
-              type="text"
-              name="location"
-              value={formData.location}
-              onChange={handleChange}
-              placeholder="Enter your current location"
-              required
-              className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+            <select
+  name="location"
+  value={formData.location}
+  onChange={handleChange}
+  required
+  className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+>
+  <option value="" disabled>
+    Select your location
+  </option>
+  <option value="Wilshire">Wilshire</option>
+  <option value="Central">Central</option>
+  <option value="Southwest">Southwest</option>
+  <option value="Van Nuys">Van Nuys</option>
+  <option value="Hollenbeck">Hollenbeck</option>
+  <option value="Rampart">Rampart</option>
+  <option value="Newton">Newton</option>
+  <option value="Northeast">Northeast</option>
+  <option value="77th Street">77th Street</option>
+  <option value="Hollywood">Hollywood</option>
+  <option value="Harbor">Harbor</option>
+  <option value="West Valley">West Valley</option>
+  <option value="West LA">West LA</option>
+  <option value="N Hollywood">N Hollywood</option>
+  <option value="Pacific">Pacific</option>
+  <option value="Devonshire">Devonshire</option>
+  <option value="Mission">Mission</option>
+  <option value="Southeast">Southeast</option>
+  <option value="Olympic">Olympic</option>
+  <option value="Foothill">Foothill</option>
+  <option value="Topanga">Topanga</option>
+  </select>
+
           </div>
         </div>
 

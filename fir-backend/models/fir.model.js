@@ -11,7 +11,6 @@ const FIRSchema = new Schema({
     citizenEmail: {
       type: String, 
       required: [true, 'Please provide an email'], 
-      unique: true,
       match: [
         /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
         'Please provide a valid email'
@@ -20,7 +19,10 @@ const FIRSchema = new Schema({
     typeOfCrime: {
       type: String,
       required: [true,'Please provide the type of Crime'],
-      enum: ["Theft", "Assault", "Fraud", "Murder", "Other"],
+      enum: ['Property Crime', 'Violent Crime', 'Sex Crime', 'Other',
+        'Fraud/Financial Crime', 'Legal/Administrative', 'Cyber Crime',
+        'Child Crime', 'Traffic Offense'
+      ],
     },
     description: {
       type: String,
