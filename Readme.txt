@@ -27,7 +27,7 @@ Key Features:
 
 ### 1. Clone the Repository
 ```bash
-https://github.com/Crime_Prediction.git
+https://github.com/Psychic-codes/Crime_Prediction.git
 cd Crime_Prediction
 ```
 
