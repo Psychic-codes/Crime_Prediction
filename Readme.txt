@@ -27,8 +27,8 @@ Key Features:
 
 ### 1. Clone the Repository
 ```bash
-https://github.com/your-repo-name.git
-cd your-repo-name
+https://github.com/Crime_Prediction.git
+cd Crime_Prediction
 ```
 
 ### 2. Setup fir-backend
