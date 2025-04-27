@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crime Prediction for 2025</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .prediction-form {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+        .form-title {
+            color: #0d6efd;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .btn-predict {
+            background-color: #0d6efd;
+            color: white;
+            padding: 10px 30px;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+        .header-section {
+            text-align: center;
+            padding: 40px 0;
+            background-color: #0d6efd;
+            color: white;
+            margin-bottom: 30px;
+            border-radius: 0 0 10px 10px;
+        }
+        .header-subtitle {
+            font-style: italic;
+            margin-top: 10px;
+        }
+        .info-card {
+            background-color: #e9f2fe;
+            border-left: 4px solid #0d6efd;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-section">
+        <h1>Crime Prediction Tool</h1>
+        <p class="header-subtitle">Forecasting Crime Patterns for 2025</p>
+    </div>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="info-card">
+                    <p><strong>How it works:</strong> Select the month, crime category, area, and demographic details to see crime risk predictions for 2025. The tool analyzes historical patterns to provide safety insights for Los Angeles neighborhoods.</p>
+                </div>
+                
+                <div class="prediction-form">
+                    <h2 class="form-title">Enter Prediction Parameters</h2>
+                    
+                    <form action="/predict" method="post">
+                        <div class="form-group">
+                            <label for="month" class="form-label">Select Month:</label>
+                            <select name="month" id="month" class="form-select">
+                                {% for num, name in months.items() %}
+                                <option value="{{ num }}">{{ name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="crime_category" class="form-label">Select Crime Category:</label>
+                            <select name="crime_category" id="crime_category" class="form-select">
+                                {% for cat in crime_categories %}
+                                <option value="{{ cat }}">{{ cat }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="area_name" class="form-label">Select Area:</label>
+                            <select name="area_name" id="area_name" class="form-select">
+                                {% for area in area_names %}
+                                <option value="{{ area }}">{{ area }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="vict_sex" class="form-label">Select Victim's Sex:</label>
+                            <select name="vict_sex" id="vict_sex" class="form-select">
+                                {% for sex in victim_sexes %}
+                                <option value="{{ sex }}">{{ sex }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-predict">Generate Prediction</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="info-card mb-5">
+                    <p><strong>Note:</strong> These predictions are based on historical data and machine learning models. Select "All" in any field to see aggregated results across that dimension.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
